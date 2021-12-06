@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace StaticData.UIStaticData.WindowsData
 {
@@ -11,6 +12,11 @@ namespace StaticData.UIStaticData.WindowsData
         public string GetPath(UIWindowType windowType)
         {
             return _windowStaticData.Find(it => it.WindowType == windowType).ResourcePath;
+        }
+
+        public AssetReferenceGameObject GetAddressableAssetGetAsset(UIWindowType windowType)
+        {
+            return _windowStaticData.Find(it => it.WindowType == windowType).AssetReferenceGameObject;
         }
     }
 }

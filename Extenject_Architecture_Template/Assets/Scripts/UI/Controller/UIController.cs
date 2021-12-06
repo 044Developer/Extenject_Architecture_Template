@@ -1,44 +1,36 @@
 ﻿using Infrastructure.Factories;
-using Infrastructure.Services.AssetProvider;
 using StaticData.UIStaticData.WindowsData;
 using UI.Windows.EntryWindow;
 using UI.Windows.ExitWindow;
+using UnityEngine.AddressableAssets;
 
 namespace UI.Controller
 {
     public class UIController
     {
-        private readonly IAssetProvider _assetProvider = null;
         private readonly ICustomFactory _factory = null;
         private readonly WindowsStaticDataContainer _windowStaticData = null;
 
-        public UIController(IAssetProvider assetProvider, ICustomFactory factory, WindowsStaticDataContainer windowStaticData)
+        public UIController(ICustomFactory factory, WindowsStaticDataContainer windowStaticData)
         {
-            _assetProvider = assetProvider;
             _factory = factory;
             _windowStaticData = windowStaticData;
         }
 
-        public void OnShowEntryWindow()
+        public async void OnShowEntryWindow()
         {
-            string path = _windowStaticData.GetPath(UIWindowType.EnterWindow);
-            EntryWindow window = SpawnElement<EntryWindow>(path);
+            AssetReferenceGameObject assetReference = _windowStaticData.GetAddressableAssetGetAsset(UIWindowType.EnterWindow);
+            EntryWindow window = await _factory.Create<EntryWindow>(assetReference);
             window.Initialize();
             window.Show();
         }
 
-        public void OnShowExitWindow()
+        public async void OnShowExitWindow()
         {
-            string path = _windowStaticData.GetPath(UIWindowType.ExitWindow);
-            ExitWindow window = SpawnElement<ExitWindow>(path);
+            AssetReferenceGameObject assetReference = _windowStaticData.GetAddressableAssetGetAsset(UIWindowType.ExitWindow);
+            ExitWindow window = await _factory.Create<ExitWindow>(assetReference);
             window.Initialize();
             window.Show();
-        }
-
-        private T SpawnElement<T>(string path)
-        {
-            var prefab = _assetProvider.GetAsset(path); 
-            return _factory.Create<T>(prefab);
         }
     }
 }

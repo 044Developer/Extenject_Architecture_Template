@@ -22,9 +22,9 @@ MonoBehaviour:
   m_maxConcurrentWebRequests: 500
   m_ContiguousBundles: 0
   m_RemoteCatalogBuildPath:
-    m_Id: 
+    m_Id: e6bf23820e94ebc4fa75476c6945110c
   m_RemoteCatalogLoadPath:
-    m_Id: 
+    m_Id: 1f70f696d5d021845aeaf1c33bded03d
   m_overridePlayerVersion: 
   m_GroupAssets:
   - {fileID: 11400000, guid: 7f3877fab2ff72748849a347ca7cb1c1, type: 2}
@@ -70,6 +70,7 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - DefaultUI
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 9973fe45595fd974fb4d4e16669763ef, type: 2}

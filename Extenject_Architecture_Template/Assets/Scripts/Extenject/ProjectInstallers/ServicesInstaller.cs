@@ -1,7 +1,6 @@
 using DefaultNamespace;
 using Infrastructure.Factories;
 using Infrastructure.Progress;
-using Infrastructure.Progress.Handlers;
 using Infrastructure.Progress.Handlers.Profile;
 using Infrastructure.Progress.Handlers.Settings;
 using Infrastructure.Progress.Handlers.Wallet;
@@ -16,7 +15,7 @@ public class ServicesInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
-        Container.Bind<IAssetProvider>().To(it => it.AllNonAbstractClasses()).AsSingle();
+        Container.BindInterfacesAndSelfTo<AssetProviderService>().AsSingle();
         Container.Bind<ICustomFactory>().To(it => it.AllNonAbstractClasses()).AsSingle();
         Container.Bind<UIController>().AsSingle();
         Container.BindInterfacesAndSelfTo<TestScript>().AsSingle();
