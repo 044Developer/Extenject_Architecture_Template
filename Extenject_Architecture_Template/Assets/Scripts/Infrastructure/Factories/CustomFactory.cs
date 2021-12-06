@@ -14,11 +14,13 @@ namespace Infrastructure.Factories
 
         public T Create<T>(GameObject prefab)
         {
+            _container.Unbind<T>();
             return _container.InstantiatePrefabForComponent<T>(prefab);
         }
 
         public T Create<T>(GameObject prefab, Transform parent)
         {
+            _container.Unbind<T>();
             return _container.InstantiatePrefabForComponent<T>(prefab, parent);
         }
     }
