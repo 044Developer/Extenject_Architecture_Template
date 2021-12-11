@@ -19,8 +19,9 @@ namespace StaticData.UIStaticData.WindowsData
     public enum UIWindowType
     {
         None,
+        UIHolder,
+        LoadingWindow,
         EnterWindow,
         ExitWindow,
-        LoadingWindow,
     }
 }

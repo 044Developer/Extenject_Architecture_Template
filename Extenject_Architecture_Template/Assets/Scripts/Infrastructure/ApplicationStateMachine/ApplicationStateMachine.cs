@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Infrastructure.ApplicationStateMachine.States;
+using Infrastructure.Services.SceneLoader;
+using StaticData.SceneStaticData.MainApplicationScenes;
+using UI.Controller;
 using Zenject;
 
 namespace Infrastructure.ApplicationStateMachine
@@ -10,12 +13,12 @@ namespace Infrastructure.ApplicationStateMachine
         private Dictionary<Type, IApplicationState> _applicationStates = null;
         private IApplicationState _currentState = null;
 
-        public ApplicationStateMachine(BootstrapState bootstrapState, MainMenuState mainMenuState)
+        public ApplicationStateMachine(UIController uiController, ISceneLoaderService<string, SceneType> sceneLoaderService)
         {
             _applicationStates = new Dictionary<Type, IApplicationState>()
             {
-                [typeof(BootstrapState)] = bootstrapState,
-                [typeof(MainMenuState)] = mainMenuState,
+                [typeof(BootstrapState)] = new BootstrapState(this, uiController),
+                [typeof(MainMenuState)] = new MainMenuState(this, uiController, sceneLoaderService),
             };
         }
 
@@ -23,6 +26,8 @@ namespace Infrastructure.ApplicationStateMachine
         {
             foreach (IApplicationState state in _applicationStates.Values) 
                 state.Initialize();
+            
+            Enter<BootstrapState>();
         }
 
         public void Enter<TState>() where TState : class, IApplicationState

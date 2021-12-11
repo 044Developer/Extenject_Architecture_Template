@@ -1,14 +1,15 @@
-﻿using Infrastructure.Services.SceneLoader;
-using UI.Controller;
+﻿using UI.Controller;
 
 namespace Infrastructure.ApplicationStateMachine.States
 {
     public class BootstrapState : IApplicationState
     {
-        private readonly UIController _uiController;
+        private readonly ApplicationStateMachine _applicationStateMachine = null;
+        private readonly UIController _uiController = null;
 
-        public BootstrapState(UIController uiController)
+        public BootstrapState(ApplicationStateMachine applicationStateMachine, UIController uiController)
         {
+            _applicationStateMachine = applicationStateMachine;
             _uiController = uiController;
         }
         
@@ -18,6 +19,7 @@ namespace Infrastructure.ApplicationStateMachine.States
 
         public void Enter()
         {
+            BootstrapUI();
         }
 
         public void Exit()
@@ -27,6 +29,15 @@ namespace Infrastructure.ApplicationStateMachine.States
 
         public void Dispose()
         {
+        }
+
+        private void BootstrapUI()
+        {
+            _uiController
+                .BootstrapUI((() =>
+            {
+                _applicationStateMachine.Enter<MainMenuState>();
+            }));
         }
     }
 }

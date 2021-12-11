@@ -1,26 +1,34 @@
-using System.Threading.Tasks;
+using StaticData.SceneStaticData.MainApplicationScenes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Infrastructure.Services.SceneLoader
 {
-    public enum SceneType { Initial, Main }
     public class SceneLoaderService : ISceneLoaderService<string, SceneType>
     {
+        private readonly SceneStaticDataContainer _sceneStaticDataContainer;
+
+        public SceneLoaderService(SceneStaticDataContainer sceneStaticDataContainer)
+        {
+            _sceneStaticDataContainer = sceneStaticDataContainer;
+        }
+        
         public void LoadSceneAsync(string scene, LoadSceneMode loadSceneMode)
         {
             SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
         }
 
-        public void LoadSceneAsync(SceneType scene, LoadSceneMode loadSceneMode)
+        public AsyncOperation LoadSceneAsync(SceneType scene, LoadSceneMode loadSceneMode)
         {
-            
+            string assetPath = GetPath(scene);
+            AsyncOperation loadTask = SceneManager.LoadSceneAsync(assetPath, loadSceneMode);
+
+            return loadTask;
         }
 
-        public async Task<AsyncOperation> LoadSceneAsyncs(SceneType scene, LoadSceneMode loadSceneMode)
+        private string GetPath(SceneType sceneType)
         {
-            AsyncOperation load = SceneManager.LoadSceneAsync("scene", loadSceneMode);
-            return load;
+            return _sceneStaticDataContainer.GetAssetPath(sceneType);
         }
     }
 }

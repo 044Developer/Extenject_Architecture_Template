@@ -1,7 +1,4 @@
-using DefaultNamespace;
-using Infrastructure.ApplicationStateMachine;
-using Infrastructure.ApplicationStateMachine.States;
-using Infrastructure.Factories;
+using Infrastructure.Helpers.DoTweenHelper;
 using Infrastructure.Progress;
 using Infrastructure.Progress.Handlers.Profile;
 using Infrastructure.Progress.Handlers.Settings;
@@ -11,41 +8,28 @@ using Infrastructure.Services.SaveAndLoad.DatabaseRepository;
 using Infrastructure.Services.SaveAndLoad.JsonWrapper.JsonUtility;
 using Infrastructure.Services.SaveAndLoad.PlayerPrefsWrapper;
 using Infrastructure.Services.SceneLoader;
-using UI.Controller;
+using StaticData.SceneStaticData.MainApplicationScenes;
 using Zenject;
 
 public class ApplicationInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
+        BindApplicationHelpers();
         BindAssetProvider();
         BindSceneLoaderService();
-        BindApplicationStates();
-        BindCustomFactory();
-        BindUIController();
         BindPlayerProgress();
-        Container.BindInterfacesAndSelfTo<TestScript>().AsSingle();
     }
-    
+
+    private void BindApplicationHelpers() => 
+        Container.Bind<DoTweenHelper>().AsSingle();
+
     private void BindAssetProvider() => 
         Container.BindInterfacesAndSelfTo<AssetProviderService>().AsSingle();
 
     private void BindSceneLoaderService() =>
         Container.Bind<ISceneLoaderService<string, SceneType>>().To(it => it.AllNonAbstractClasses()).AsSingle();
     
-    private void BindApplicationStates()
-    {
-        Container.Bind<BootstrapState>().AsSingle();
-        Container.Bind<MainMenuState>().AsSingle();
-        Container.Bind<IApplicationStateMachine>().To(it => it.AllNonAbstractClasses()).AsSingle();
-    }
-
-    private void BindCustomFactory() => 
-        Container.Bind<ICustomFactory>().To(it => it.AllNonAbstractClasses()).AsSingle();
-
-    private void BindUIController() => 
-        Container.Bind<UIController>().AsSingle();
-
     private void BindPlayerProgress()
     {
         Container.Bind<IDBRepository>().To(it => it.AllNonAbstractClasses()).AsSingle();

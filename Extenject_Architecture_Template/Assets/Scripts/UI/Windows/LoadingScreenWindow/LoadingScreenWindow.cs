@@ -1,7 +1,6 @@
-using System.Threading.Tasks;
-using Infrastructure.Services.SceneLoader;
+using DG.Tweening;
+using Infrastructure.Helpers.DoTweenHelper;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -9,40 +8,67 @@ namespace UI.Windows.LoadingScreenWindow
 {
     public class LoadingScreenWindow : ObjectWindow
     {
-        [SerializeField] private Slider _progressSlider = null;
-        [SerializeField] private float _beginProgressFillSpeed = 200f;
-        [SerializeField] private float _endProgressFillSpeed = 3f;
-
-        private float _currentProgressFillSpeed = 0f;
+        private const float ZERO_PROGRESS_VALUE = 0f;
+        private const float MIDDLE_PROGRESS_VALUE = 0.5f;
+        private const float MAX_PROGRESS_VALUE = 1f;
         
-        private ISceneLoaderService<string, SceneType> _sceneLoaderService = null;
-        [Inject]
-        public void Construct(ISceneLoaderService<string, SceneType> sceneLoaderService)
-        {
-            _sceneLoaderService = sceneLoaderService;
+        [SerializeField] private Image _progressSliderImage = null;
+        [SerializeField] private float _beginProgressFillSpeed = 50f;
+        [SerializeField] private float _endProgressFillSpeed = 2f;
+        [SerializeField] private Ease _beginAnimationEasing;
+        [SerializeField] private Ease _endAnimationEasing;
 
-            Task<AsyncOperation> a = _sceneLoaderService.LoadSceneAsyncs(SceneType.Main, LoadSceneMode.Additive);
-            Debug.Log($"PROGRESS = {a.Result.progress}");
+        private DoTweenHelper _doTweenHelper = null;
+        private Sequence _currentAnimationSequence = null;
+        
+        [Inject]
+        public void Construct(DoTweenHelper doTweenHelper)
+        {
+            _doTweenHelper = doTweenHelper;
         }
         
         public override void Initialize()
         {
             base.Initialize();
+            ResetProgressbar();
         }
 
         public override void Show()
         {
             base.Show();
+            
+            BeginProgressFillAnimation();
         }
 
-        public override void Dispose()
+        public override void Close()
         {
-            base.Dispose();
+            EndProgressFillAnimation();
         }
 
-        private void DisplayFillBar()
+        private void ResetProgressbar()
         {
-            //_progressSlider.value.
+            _progressSliderImage.fillAmount = ZERO_PROGRESS_VALUE;
+        }
+
+        private void BeginProgressFillAnimation()
+        {
+            _currentAnimationSequence = _doTweenHelper
+                .CreateImageFillSequence(_progressSliderImage, MIDDLE_PROGRESS_VALUE, _beginProgressFillSpeed, _beginAnimationEasing);
+
+            _currentAnimationSequence.Play();
+        }
+        
+        private void EndProgressFillAnimation()
+        {
+            _currentAnimationSequence?.Kill();
+            _currentAnimationSequence = _doTweenHelper
+                .CreateImageFillSequence(_progressSliderImage, MAX_PROGRESS_VALUE, _endProgressFillSpeed, _endAnimationEasing,
+                    () =>
+                    {
+                        Destroy(this.gameObject);
+                    });
+
+            _currentAnimationSequence.Play();
         }
     }
 }

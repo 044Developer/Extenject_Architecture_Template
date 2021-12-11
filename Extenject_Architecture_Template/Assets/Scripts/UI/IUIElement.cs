@@ -7,6 +7,7 @@ namespace UI
         void SetParent(Transform parent);
         void Initialize();
         void Show();
+        void Close();
         void Dispose();
     }
 }

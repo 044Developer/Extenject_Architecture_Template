@@ -17,6 +17,11 @@ namespace UI.Windows
         {
         }
 
+        public virtual void Close()
+        {
+            Destroy(this.gameObject);
+        }
+
         public virtual void Dispose()
         {
         }
