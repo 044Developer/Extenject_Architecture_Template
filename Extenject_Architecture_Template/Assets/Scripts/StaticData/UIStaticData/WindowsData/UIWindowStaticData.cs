@@ -21,5 +21,6 @@ namespace StaticData.UIStaticData.WindowsData
         None,
         EnterWindow,
         ExitWindow,
+        LoadingWindow,
     }
 }

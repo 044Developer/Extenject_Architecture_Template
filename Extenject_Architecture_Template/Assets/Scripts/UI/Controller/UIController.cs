@@ -2,6 +2,7 @@
 using StaticData.UIStaticData.WindowsData;
 using UI.Windows.EntryWindow;
 using UI.Windows.ExitWindow;
+using UI.Windows.LoadingScreenWindow;
 using UnityEngine.AddressableAssets;
 
 namespace UI.Controller
@@ -15,6 +16,14 @@ namespace UI.Controller
         {
             _factory = factory;
             _windowStaticData = windowStaticData;
+        }
+
+        public async void OnShowLoadingWindow()
+        {
+            AssetReferenceGameObject assetReference = _windowStaticData.GetAddressableAssetGetAsset(UIWindowType.LoadingWindow);
+            LoadingScreenWindow window = await _factory.Create<LoadingScreenWindow>(assetReference);
+            window.Initialize();
+            window.Show();
         }
 
         public async void OnShowEntryWindow()
