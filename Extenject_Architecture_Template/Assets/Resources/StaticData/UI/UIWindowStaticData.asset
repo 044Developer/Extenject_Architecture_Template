@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _windowStaticData:
   - _windowType: 1
-    _resourcePath: Prefabs/UI/Windows/EntryWindow
+    _resourcePath: UIHolder
     _assetReferenceGameObject:
       m_AssetGUID: b2c5af9406eafa042b0f54c98a14633c
       m_SubObjectName: 
@@ -26,14 +26,20 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
   - _windowType: 3
-    _resourcePath: Prefabs/UI/Windows/ExitWindow
+    _resourcePath: EnterWindow
     _assetReferenceGameObject:
       m_AssetGUID: 751f37617ba16c04e88812048307e521
       m_SubObjectName: 
       m_SubObjectType: 
   - _windowType: 4
-    _resourcePath: Prefabs/UI/Windows/ExitWindow
+    _resourcePath: ExitWindow
     _assetReferenceGameObject:
       m_AssetGUID: 5e91004b886af2e438710c588d3073f2
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - _windowType: 5
+    _resourcePath: MainWindow
+    _assetReferenceGameObject:
+      m_AssetGUID: a7a6de873fad3ac4d8c961b79b214a8d
       m_SubObjectName: 
       m_SubObjectType: 

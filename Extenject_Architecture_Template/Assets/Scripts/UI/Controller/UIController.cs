@@ -34,7 +34,7 @@ namespace UI.Controller
         public async void OnShowLoadingWindow(Action onComplete = null)
         {
             AssetReferenceGameObject assetReference = _windowStaticData.GetAddressableAsset(UIWindowType.LoadingWindow);
-            LoadingScreenWindow window = await _factory.Create<LoadingScreenWindow>(assetReference, _uiHolder.WindowsParent);
+            LoadingScreenWindow window = await _factory.Create<LoadingScreenWindow>(assetReference, _uiHolder.LoadingScreenParent);
             CacheWindow(UIWindowType.LoadingWindow, window);
             window.Initialize();
             window.Show();
@@ -47,6 +47,16 @@ namespace UI.Controller
                 return;
             _cachedWindows.Remove(windowType);
             window.Close();
+            window.Dispose();
+        }
+
+        public async void OnShowMainWindow()
+        {
+            AssetReferenceGameObject assetReference = _windowStaticData.GetAddressableAsset(UIWindowType.MainWindow);
+            MainWindow window = await _factory.Create<MainWindow>(assetReference, _uiHolder.WindowsParent);
+            CacheWindow(UIWindowType.MainWindow, window);
+            window.Initialize();
+            window.Show();
         }
 
         public async void OnShowEntryWindow()

@@ -46,6 +46,7 @@ namespace Infrastructure.ApplicationStateMachine.States
         private void OnSceneLoaded(AsyncOperation operation)
         {
             _uiController.OnCloseWindow(UIWindowType.LoadingWindow);
+            _uiController.OnShowMainWindow();
         }
     }
 }
