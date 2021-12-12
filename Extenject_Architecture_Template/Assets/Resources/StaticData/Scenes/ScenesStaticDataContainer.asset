@@ -25,3 +25,27 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  - _sceneType: 3
+    _scenePath: Level_1
+    _sceneReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - _sceneType: 4
+    _scenePath: Level_2
+    _sceneReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - _sceneType: 5
+    _scenePath: Level_3
+    _sceneReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - _sceneType: 6
+    _scenePath: Level_4
+    _sceneReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 

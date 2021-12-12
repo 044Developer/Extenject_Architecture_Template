@@ -37,9 +37,3 @@ MonoBehaviour:
       m_AssetGUID: 5e91004b886af2e438710c588d3073f2
       m_SubObjectName: 
       m_SubObjectType: 
-  - _windowType: 5
-    _resourcePath: MainWindow
-    _assetReferenceGameObject:
-      m_AssetGUID: a7a6de873fad3ac4d8c961b79b214a8d
-      m_SubObjectName: 
-      m_SubObjectType: 

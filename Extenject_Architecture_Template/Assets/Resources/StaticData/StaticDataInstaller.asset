@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: StaticDataInstaller
   m_EditorClassIdentifier: 
   _windowStaticData: {fileID: 11400000, guid: 9f977fea343487c42877a1eca92b74b6, type: 2}
+  _panelsStaticDataContainer: {fileID: 11400000, guid: 3690b7c4f437db0449a2fec419abfa03, type: 2}
   _sceneStaticDataContainer: {fileID: 11400000, guid: c8ef823459c3e1f40b27372778e3d7de, type: 2}

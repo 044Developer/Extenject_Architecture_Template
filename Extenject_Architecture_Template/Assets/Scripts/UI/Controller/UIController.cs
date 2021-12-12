@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Infrastructure.Factories;
+using StaticData.UIStaticData.PanelsData;
 using StaticData.UIStaticData.WindowsData;
+using UI.Panels;
 using UI.Windows;
 using UI.Windows.EntryWindow;
 using UI.Windows.ExitWindow;
@@ -16,12 +17,15 @@ namespace UI.Controller
         private UIHolder _uiHolder = null;
         private readonly ICustomFactory _factory = null;
         private readonly WindowsStaticDataContainer _windowStaticData = null;
+        private readonly PanelsStaticDataContainer _panelsStaticDataContainer = null;
         private Dictionary<UIWindowType, ObjectWindow> _cachedWindows = new Dictionary<UIWindowType, ObjectWindow>();
+        private Dictionary<UIPanelType, ObjectPanel> _cachedPanels = new Dictionary<UIPanelType, ObjectPanel>();
 
-        public UIController(ICustomFactory factory, WindowsStaticDataContainer windowStaticData)
+        public UIController(ICustomFactory factory, WindowsStaticDataContainer windowStaticData, PanelsStaticDataContainer panelsStaticDataContainer)
         {
             _factory = factory;
             _windowStaticData = windowStaticData;
+            _panelsStaticDataContainer = panelsStaticDataContainer;
         }
         
         public async void BootstrapUI(Action onComplete)
@@ -50,13 +54,22 @@ namespace UI.Controller
             window.Dispose();
         }
 
-        public async void OnShowMainWindow()
+        public void OnClosePanel(UIPanelType panelType)
         {
-            AssetReferenceGameObject assetReference = _windowStaticData.GetAddressableAsset(UIWindowType.MainWindow);
-            MainWindow window = await _factory.Create<MainWindow>(assetReference, _uiHolder.WindowsParent);
-            CacheWindow(UIWindowType.MainWindow, window);
-            window.Initialize();
-            window.Show();
+            if (!_cachedPanels.TryGetValue(panelType, out var panel))
+                return;
+            _cachedPanels.Remove(panelType);
+            panel.Close();
+            panel.Dispose();
+        }
+
+        public async void OnShowMainPanel()
+        {
+            AssetReferenceGameObject assetReference = _panelsStaticDataContainer.GetAddressableAsset(UIPanelType.MainPanel);
+            MainPanel panel = await _factory.Create<MainPanel>(assetReference, _uiHolder.PanelsScreenParent);
+            CachePanel(UIPanelType.MainPanel, panel);
+            panel.Initialize();
+            panel.Show();
         }
 
         public async void OnShowEntryWindow()
@@ -82,6 +95,13 @@ namespace UI.Controller
             if (_cachedWindows.ContainsKey(windowType))
                 return;
             _cachedWindows[windowType] = window;
+        }
+
+        private void CachePanel(UIPanelType panelType, ObjectPanel panel)
+        {
+            if (_cachedPanels.ContainsKey(panelType))
+                return;
+            _cachedPanels[panelType] = panel;
         }
     }
 }

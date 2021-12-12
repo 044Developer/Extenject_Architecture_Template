@@ -21,16 +21,16 @@ MonoBehaviour:
     m_Address: UI_Holder
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 5083473419096119147, guid: b2c5af9406eafa042b0f54c98a14633c, type: 3}
-    m_TargetAsset: {fileID: 5083473419096119147, guid: b2c5af9406eafa042b0f54c98a14633c, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   - m_GUID: a09011ddd096a3b4ab1e19b4986410bb
     m_Address: LoadingWindow
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 7011691796656737026, guid: a09011ddd096a3b4ab1e19b4986410bb, type: 3}
-    m_TargetAsset: {fileID: 7011691796656737026, guid: a09011ddd096a3b4ab1e19b4986410bb, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   - m_GUID: a7a6de873fad3ac4d8c961b79b214a8d
-    m_Address: MainWindow
+    m_Address: MainPanel
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 8362359424083520288, guid: a7a6de873fad3ac4d8c961b79b214a8d, type: 3}

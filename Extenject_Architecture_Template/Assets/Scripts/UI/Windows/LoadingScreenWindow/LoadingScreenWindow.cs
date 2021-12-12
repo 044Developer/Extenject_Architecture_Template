@@ -9,12 +9,12 @@ namespace UI.Windows.LoadingScreenWindow
     public class LoadingScreenWindow : ObjectWindow
     {
         private const float ZERO_PROGRESS_VALUE = 0f;
-        private const float MIDDLE_PROGRESS_VALUE = 0.5f;
+        private const float MIDDLE_PROGRESS_VALUE = 0.7f;
         private const float MAX_PROGRESS_VALUE = 1f;
         
         [SerializeField] private Image _progressSliderImage = null;
-        [SerializeField] private float _beginProgressFillSpeed = 50f;
-        [SerializeField] private float _endProgressFillSpeed = 2f;
+        [SerializeField] private float _beginProgressFillSpeed = 6f;
+        [SerializeField] private float _endProgressFillSpeed = 0.5f;
         [SerializeField] private Ease _beginAnimationEasing;
         [SerializeField] private Ease _endAnimationEasing;
 

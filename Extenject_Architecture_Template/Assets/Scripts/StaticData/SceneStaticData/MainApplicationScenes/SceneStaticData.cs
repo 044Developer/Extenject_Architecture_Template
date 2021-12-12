@@ -15,5 +15,5 @@ namespace StaticData.SceneStaticData.MainApplicationScenes
         public string ScenePath => _scenePath;
         public AssetReference SceneReference => _sceneReference;
     }
-    public enum SceneType { None, Initial, Main }
+    public enum SceneType { None, Initial, Main, Level_1, Level_2, Level_3, Level_4 }
 }

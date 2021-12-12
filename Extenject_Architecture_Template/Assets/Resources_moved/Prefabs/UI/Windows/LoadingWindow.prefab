@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _progressSliderImage: {fileID: 1940432720278876356}
-  _beginProgressFillSpeed: 30
-  _endProgressFillSpeed: 2
+  _beginProgressFillSpeed: 6
+  _endProgressFillSpeed: 0.5
   _beginAnimationEasing: 1
   _endAnimationEasing: 1
