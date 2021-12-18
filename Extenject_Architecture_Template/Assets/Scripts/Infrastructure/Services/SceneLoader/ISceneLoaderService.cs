@@ -3,9 +3,8 @@ using UnityEngine.SceneManagement;
 
 namespace Infrastructure.Services.SceneLoader
 {
-    public interface ISceneLoaderService<TPayLoad, UPayLoad>
+    public interface ISceneLoaderService<TPayLoad>
     {
-        public void LoadSceneAsync(TPayLoad scene, LoadSceneMode loadSceneMode);
-        public AsyncOperation LoadSceneAsync(UPayLoad scene, LoadSceneMode loadSceneMode);
+        public AsyncOperation LoadSceneAsync(TPayLoad scene, LoadSceneMode loadSceneMode);
     }
 }

@@ -127,9 +127,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1fbd95c16beea3e49988482a0a662136, type: 2}
   - {fileID: 11400000, guid: d2efc6bedeba56d46acf6983c6d29865, type: 2}
   - {fileID: 11400000, guid: aa886aff2478004409275883d92ea2b8, type: 2}
-  m_ActiveProfileId: ab739fe43758a6948affb6dda3be5557
+  m_ActiveProfileId: fdce39ad58b2544429a9b447f29ee119
   m_HostingServicesManager:
     m_HostingServiceInfos: []
     m_Settings: {fileID: 11400000}
     m_NextInstanceId: 0
-    m_RegisteredServiceTypeRefs: []
+    m_RegisteredServiceTypeRefs:
+    - UnityEditor.AddressableAssets.HostingServices.HttpHostingService, Unity.Addressables.Editor

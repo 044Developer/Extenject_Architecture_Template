@@ -1,3 +1,5 @@
+using Infrastructure.ApplicationStateMachine;
+using Infrastructure.Factories;
 using Infrastructure.Helpers.DoTweenHelper;
 using Infrastructure.Progress;
 using Infrastructure.Progress.Handlers.Profile;
@@ -9,6 +11,7 @@ using Infrastructure.Services.SaveAndLoad.JsonWrapper.JsonUtility;
 using Infrastructure.Services.SaveAndLoad.PlayerPrefsWrapper;
 using Infrastructure.Services.SceneLoader;
 using StaticData.SceneStaticData.MainApplicationScenes;
+using UI.Controller;
 using Zenject;
 
 public class ApplicationInstaller : MonoInstaller
@@ -19,6 +22,9 @@ public class ApplicationInstaller : MonoInstaller
         BindAssetProvider();
         BindSceneLoaderService();
         BindPlayerProgress();
+        BindApplicationStates();
+        BindUIController();
+        BindCustomFactory();
     }
 
     private void BindApplicationHelpers() => 
@@ -28,7 +34,7 @@ public class ApplicationInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<AssetProviderService>().AsSingle();
 
     private void BindSceneLoaderService() =>
-        Container.Bind<ISceneLoaderService<string, SceneType>>().To(it => it.AllNonAbstractClasses()).AsSingle();
+        Container.Bind<ISceneLoaderService<string>>().To(it => it.AllNonAbstractClasses()).AsSingle();
     
     private void BindPlayerProgress()
     {
@@ -40,4 +46,13 @@ public class ApplicationInstaller : MonoInstaller
         Container.Bind<IPlayerWalletDataHandler>().To(it => it.AllNonAbstractClasses()).AsSingle();
         Container.BindInterfacesAndSelfTo<ProgressDataHolder>().AsSingle();
     }
+    
+    private void BindApplicationStates() => 
+        Container.BindInterfacesAndSelfTo<ApplicationStateMachine>().AsSingle();
+
+    private void BindUIController() => 
+        Container.Bind<UIController>().AsSingle();
+
+    private void BindCustomFactory() => 
+        Container.Bind<ICustomFactory>().To(it => it.AllNonAbstractClasses()).AsSingle();
 }                                                                                                                

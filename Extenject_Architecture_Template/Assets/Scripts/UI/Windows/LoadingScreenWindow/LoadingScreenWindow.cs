@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Infrastructure.Helpers.DoTweenHelper;
+using UI.Controller;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -19,12 +20,14 @@ namespace UI.Windows.LoadingScreenWindow
         [SerializeField] private Ease _endAnimationEasing;
 
         private DoTweenHelper _doTweenHelper = null;
+        private UIController _uiController = null;
         private Sequence _currentAnimationSequence = null;
         
         [Inject]
-        public void Construct(DoTweenHelper doTweenHelper)
+        public void Construct(DoTweenHelper doTweenHelper, UIController uiController)
         {
             _doTweenHelper = doTweenHelper;
+            _uiController = uiController;
         }
         
         public override void Initialize()
@@ -36,13 +39,20 @@ namespace UI.Windows.LoadingScreenWindow
         public override void Show()
         {
             base.Show();
-            
+        }
+
+        public void StartLoading()
+        {
             BeginProgressFillAnimation();
+        }
+
+        public void FinalizeLoading()
+        {
+            EndProgressFillAnimation();
         }
 
         public override void Close()
         {
-            EndProgressFillAnimation();
         }
 
         private void ResetProgressbar()
@@ -65,7 +75,7 @@ namespace UI.Windows.LoadingScreenWindow
                 .CreateImageFillSequence(_progressSliderImage, MAX_PROGRESS_VALUE, _endProgressFillSpeed, _endAnimationEasing,
                     () =>
                     {
-                        Destroy(this.gameObject);
+                        _uiController.OnCloseWindow<LoadingScreenWindow>();
                     });
 
             _currentAnimationSequence.Play();

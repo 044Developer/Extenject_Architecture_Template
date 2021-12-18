@@ -2,7 +2,7 @@
 
 namespace Infrastructure.ApplicationStateMachine.States
 {
-    public class BootstrapState : IApplicationState
+    public class BootstrapState : IState
     {
         private readonly ApplicationStateMachine _applicationStateMachine = null;
         private readonly UIController _uiController = null;
@@ -36,7 +36,7 @@ namespace Infrastructure.ApplicationStateMachine.States
             _uiController
                 .BootstrapUI((() =>
             {
-                _applicationStateMachine.Enter<MainMenuState>();
+                _applicationStateMachine.Enter<LoadingState>("Main", LoadingToStateType.MainMenu);
             }));
         }
     }

@@ -4,6 +4,6 @@ namespace Infrastructure.ApplicationStateMachine
 {
     public interface IApplicationStateMachine
     {
-        void Enter<TState>() where TState : class, IApplicationState;
+        void Enter<TState>() where TState : class, IState;
     }
 }

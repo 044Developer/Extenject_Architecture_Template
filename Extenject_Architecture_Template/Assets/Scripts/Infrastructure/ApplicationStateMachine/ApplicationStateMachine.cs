@@ -13,12 +13,14 @@ namespace Infrastructure.ApplicationStateMachine
         private Dictionary<Type, IApplicationState> _applicationStates = null;
         private IApplicationState _currentState = null;
 
-        public ApplicationStateMachine(UIController uiController, ISceneLoaderService<string, SceneType> sceneLoaderService)
+        public ApplicationStateMachine(UIController uiController, ISceneLoaderService<string> sceneLoaderService,
+            SceneStaticDataContainer sceneStaticDataContainer)
         {
             _applicationStates = new Dictionary<Type, IApplicationState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, uiController),
-                [typeof(MainMenuState)] = new MainMenuState(this, uiController, sceneLoaderService),
+                [typeof(LoadingState)] = new LoadingState(this, uiController, sceneStaticDataContainer, sceneLoaderService),
+                [typeof(MainMenuState)] = new MainMenuState(this, uiController),
             };
         }
 
@@ -30,10 +32,17 @@ namespace Infrastructure.ApplicationStateMachine
             Enter<BootstrapState>();
         }
 
-        public void Enter<TState>() where TState : class, IApplicationState
+        public void Enter<TState>() where TState : class, IState
         {
-            IApplicationState newState = ChangeState<TState>();
+            IState newState = ChangeState<TState>();
             newState.Enter();
+        }
+
+        public void Enter<TState>(string tpayload, LoadingToStateType vPayLoad)
+            where TState : class, IPayLoadedState<string, LoadingToStateType>
+        {
+            TState state = ChangeState<TState>();
+            state.Enter(tpayload, vPayLoad);
         }
 
         private TState ChangeState<TState>() where TState : class, IApplicationState
@@ -44,7 +53,7 @@ namespace Infrastructure.ApplicationStateMachine
             return newState;
         }
 
-        private TState GetState<TState>() where TState : class
+        private TState GetState<TState>() where TState : class, IApplicationState
         {
             return _applicationStates[typeof(TState)] as TState;
         }

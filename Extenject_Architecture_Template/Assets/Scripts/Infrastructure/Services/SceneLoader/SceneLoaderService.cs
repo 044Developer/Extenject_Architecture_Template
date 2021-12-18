@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace Infrastructure.Services.SceneLoader
 {
-    public class SceneLoaderService : ISceneLoaderService<string, SceneType>
+    public class SceneLoaderService : ISceneLoaderService<string>
     {
         private readonly SceneStaticDataContainer _sceneStaticDataContainer;
         private string _currentSceneName = String.Empty;
@@ -14,13 +14,8 @@ namespace Infrastructure.Services.SceneLoader
         {
             _sceneStaticDataContainer = sceneStaticDataContainer;
         }
-        
-        public void LoadSceneAsync(string scene, LoadSceneMode loadSceneMode)
-        {
-            SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
-        }
 
-        public AsyncOperation LoadSceneAsync(SceneType scene, LoadSceneMode loadSceneMode)
+        public AsyncOperation LoadSceneAsync(string scene, LoadSceneMode loadSceneMode)
         {
             string assetPath = GetPath(scene);
             AsyncOperation loadTask = SceneManager.LoadSceneAsync(assetPath, loadSceneMode);
@@ -30,7 +25,7 @@ namespace Infrastructure.Services.SceneLoader
             return loadTask;
         }
 
-        private string GetPath(SceneType sceneType)
+        private string GetPath(string sceneType)
         {
             return _sceneStaticDataContainer.GetAssetPath(sceneType);
         }

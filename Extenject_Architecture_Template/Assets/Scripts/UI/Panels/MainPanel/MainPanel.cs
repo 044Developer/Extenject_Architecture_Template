@@ -13,10 +13,10 @@ public class MainPanel : ObjectPanel
     [SerializeField] private Button _thirdLevelButton = null;
     [SerializeField] private Button _fourthLevelButton = null;
 
-    private ISceneLoaderService<string, SceneType> _sceneLoaderService = null;
+    private ISceneLoaderService<string> _sceneLoaderService = null;
     
     [Inject]
-    public void Construct(ISceneLoaderService<string, SceneType> sceneLoaderService)
+    public void Construct(ISceneLoaderService<string> sceneLoaderService)
     {
         _sceneLoaderService = sceneLoaderService;
     }
@@ -48,25 +48,25 @@ public class MainPanel : ObjectPanel
         _firstLevelButton.onClick
             .AddListener(() =>
             {
-                OnLoadLevelButtonClicked(SceneType.Level_1);
+                OnLoadLevelButtonClicked("Level_1");
             });
         
         _secondLevelButton.onClick
             .AddListener(() =>
             {
-                OnLoadLevelButtonClicked(SceneType.Level_2);
+                OnLoadLevelButtonClicked("Level_2");
             });
         
         _thirdLevelButton.onClick
             .AddListener(() =>
             {
-                OnLoadLevelButtonClicked(SceneType.Level_3);
+                OnLoadLevelButtonClicked("Level_3");
             });
         
         _fourthLevelButton.onClick
             .AddListener(() =>
             {
-                OnLoadLevelButtonClicked(SceneType.Level_4);
+                OnLoadLevelButtonClicked("Level_4");
             });
     }
 
@@ -78,7 +78,7 @@ public class MainPanel : ObjectPanel
         _fourthLevelButton.onClick.RemoveAllListeners();
     }
 
-    private void OnLoadLevelButtonClicked(SceneType sceneType)
+    private void OnLoadLevelButtonClicked(string sceneType)
     {
         _sceneLoaderService.LoadSceneAsync(sceneType, LoadSceneMode.Additive);
     }

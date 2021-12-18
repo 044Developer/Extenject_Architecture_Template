@@ -2,21 +2,20 @@
 using StaticData.SceneStaticData.MainApplicationScenes;
 using StaticData.UIStaticData.WindowsData;
 using UI.Controller;
+using UI.Windows.LoadingScreenWindow;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Infrastructure.ApplicationStateMachine.States
 {
-    public class MainMenuState : IApplicationState
+    public class MainMenuState : IState
     {
         private readonly ApplicationStateMachine _applicationStateMachine = null;
         private readonly UIController _uiController = null;
-        private readonly ISceneLoaderService<string, SceneType> _sceneLoaderService = null;
-        public MainMenuState(ApplicationStateMachine applicationStateMachine, UIController uiController, ISceneLoaderService<string, SceneType> sceneLoaderService)
+        public MainMenuState(ApplicationStateMachine applicationStateMachine, UIController uiController)
         {
             _applicationStateMachine = applicationStateMachine;
             _uiController = uiController;
-            _sceneLoaderService = sceneLoaderService;
         }
         
         public void Initialize()
@@ -25,7 +24,6 @@ namespace Infrastructure.ApplicationStateMachine.States
 
         public void Enter()
         {
-            _uiController.OnShowLoadingWindow(LoadMainScene);
         }
 
         public void Exit()
@@ -34,19 +32,6 @@ namespace Infrastructure.ApplicationStateMachine.States
 
         public void Dispose()
         {
-        }
-        
-        private void LoadMainScene()
-        {
-            AsyncOperation loadTask = _sceneLoaderService.LoadSceneAsync(SceneType.Main, LoadSceneMode.Additive);
-
-            loadTask.completed += OnSceneLoaded;
-        }
-
-        private void OnSceneLoaded(AsyncOperation operation)
-        {
-            _uiController.OnCloseWindow(UIWindowType.LoadingWindow);
-            _uiController.OnShowMainPanel();
         }
     }
 }
