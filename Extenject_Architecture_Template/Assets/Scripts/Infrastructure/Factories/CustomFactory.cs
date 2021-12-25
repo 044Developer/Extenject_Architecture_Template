@@ -17,21 +17,39 @@ namespace Infrastructure.Factories
             _assetProvider = assetProvider;
         }
 
-        public async Task<T> Create<T>(AssetReferenceGameObject assetReference)
+        public T Create<T>(string assetReference)
         {
-            var prefab = await _assetProvider.Load<GameObject>(assetReference); 
+            var prefab = _assetProvider.Load<GameObject>(assetReference);
             return BindAndInstantiate<T>(prefab);
         }
 
-        public async Task<T> Create<T>(AssetReferenceGameObject assetReference, Transform parent)
+        public T Create<T>(string assetReference, Transform parent)
         {
-            var prefab = await _assetProvider.Load<GameObject>(assetReference); 
+            var prefab = _assetProvider.Load<GameObject>(assetReference);
             return BindAndInstantiate<T>(prefab, parent);
         }
 
-        public async Task<T> Create<T>(AssetReferenceGameObject assetReference, Vector3 position, Quaternion quaternion, Transform parent)
+        public T Create<T>(string assetReference, Vector3 position, Quaternion quaternion, Transform parent)
         {
-            var prefab = await _assetProvider.Load<GameObject>(assetReference); 
+            var prefab = _assetProvider.Load<GameObject>(assetReference);
+            return BindAndInstantiate<T>(prefab, position, quaternion, parent);
+        }
+
+        public async Task<T> CreateAsync<T>(AssetReferenceGameObject assetReference)
+        {
+            var prefab = await _assetProvider.LoadAsync<GameObject>(assetReference); 
+            return BindAndInstantiate<T>(prefab);
+        }
+
+        public async Task<T> CreateAsync<T>(AssetReferenceGameObject assetReference, Transform parent)
+        {
+            var prefab = await _assetProvider.LoadAsync<GameObject>(assetReference); 
+            return BindAndInstantiate<T>(prefab, parent);
+        }
+
+        public async Task<T> CreateAsync<T>(AssetReferenceGameObject assetReference, Vector3 position, Quaternion quaternion, Transform parent)
+        {
+            var prefab = await _assetProvider.LoadAsync<GameObject>(assetReference); 
             return BindAndInstantiate<T>(prefab, position, quaternion, parent);
         }
 

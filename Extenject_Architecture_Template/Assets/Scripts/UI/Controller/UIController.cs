@@ -20,8 +20,6 @@ namespace UI.Controller
         private readonly PanelsStaticDataContainer _panelsStaticDataContainer = null;
         private Dictionary<Type, ObjectWindow> _cachedWindows = new Dictionary<Type, ObjectWindow>();
         private Dictionary<Type, ObjectPanel> _cachedPanels = new Dictionary<Type, ObjectPanel>();
-
-        private LoadingScreenWindow _loadingScreenWindow = null;
         
         public UIController(ICustomFactory factory, WindowsStaticDataContainer windowStaticData, PanelsStaticDataContainer panelsStaticDataContainer)
         {
@@ -33,24 +31,29 @@ namespace UI.Controller
         public async void BootstrapUI(Action onComplete)
         {
             AssetReferenceGameObject assetReference = _windowStaticData.GetAddressableAsset(UIWindowType.UIHolder);
-            _uiHolder = await _factory.Create<UIHolder>(assetReference);
+            _uiHolder = await _factory.CreateAsync<UIHolder>(assetReference);
             onComplete?.Invoke();
         }
 
-        public async void OnStartLoadingWindow(Action onComplete = null)
+        public void OnStartLoadingWindow(Action onComplete = null)
         {
-            AssetReferenceGameObject assetReference = _windowStaticData.GetAddressableAsset(UIWindowType.LoadingWindow);
-            _loadingScreenWindow = await _factory.Create<LoadingScreenWindow>(assetReference, _uiHolder.LoadingScreenParent);
-            CacheWindow<LoadingScreenWindow>(_loadingScreenWindow);
-            _loadingScreenWindow.Initialize();
-            _loadingScreenWindow.Show();
-            _loadingScreenWindow.StartLoading();
+            string assetReferencePath = _windowStaticData.GetPath(UIWindowType.LoadingWindow);
+            var loadingScreenWindow = _factory.Create<LoadingScreenWindow>(assetReferencePath, _uiHolder.LoadingScreenParent);
+            CacheWindow<LoadingScreenWindow>(loadingScreenWindow);
+            loadingScreenWindow.Initialize();
+            loadingScreenWindow.Show();
+            loadingScreenWindow.StartLoading();
             onComplete?.Invoke();
         }
 
         public void OnFinalizeLoadingWindow()
         {
-            _loadingScreenWindow.FinalizeLoading();
+            bool isWindowCached = IsWindowCached<LoadingScreenWindow>();
+            if (!isWindowCached)
+                return;
+
+            LoadingScreenWindow loadingScreenWindow = GetCachedWindow<LoadingScreenWindow>();
+            loadingScreenWindow.FinalizeLoading();
         }
 
         public void OnCloseWindow<TWindow>()
@@ -74,7 +77,7 @@ namespace UI.Controller
         public async void OnShowMainPanel()
         {
             AssetReferenceGameObject assetReference = _panelsStaticDataContainer.GetAddressableAsset(UIPanelType.MainPanel);
-            MainPanel panel = await _factory.Create<MainPanel>(assetReference, _uiHolder.PanelsScreenParent);
+            MainPanel panel = await _factory.CreateAsync<MainPanel>(assetReference, _uiHolder.PanelsScreenParent);
             CachePanel<MainPanel>(panel);
             panel.Initialize();
             panel.Show();
@@ -83,7 +86,7 @@ namespace UI.Controller
         public async void OnShowEntryWindow()
         {
             AssetReferenceGameObject assetReference = _windowStaticData.GetAddressableAsset(UIWindowType.EnterWindow);
-            EntryWindow window = await _factory.Create<EntryWindow>(assetReference, _uiHolder.WindowsParent);
+            EntryWindow window = await _factory.CreateAsync<EntryWindow>(assetReference, _uiHolder.WindowsParent);
             CacheWindow<EntryWindow>(window);
             window.Initialize();
             window.Show();
@@ -92,7 +95,7 @@ namespace UI.Controller
         public async void OnShowExitWindow()
         {
             AssetReferenceGameObject assetReference = _windowStaticData.GetAddressableAsset(UIWindowType.ExitWindow);
-            ExitWindow window = await _factory.Create<ExitWindow>(assetReference, _uiHolder.WindowsParent);
+            ExitWindow window = await _factory.CreateAsync<ExitWindow>(assetReference, _uiHolder.WindowsParent);
             CacheWindow<ExitWindow>(window);
             window.Initialize();
             window.Show();
@@ -105,14 +108,14 @@ namespace UI.Controller
             _cachedWindows[typeof(TWindow)] = window;
         }
 
-        private ObjectWindow GetCachedWindow<TWindow>()
+        private TWindow GetCachedWindow<TWindow>() where TWindow : ObjectWindow
         {
-            if (_cachedWindows.TryGetValue(typeof(TWindow), out var window))
-            {
-                return window;
-            }
+            return _cachedWindows[typeof(TWindow)] as TWindow;
+        }
 
-            return null;
+        private bool IsWindowCached<TWindow>()
+        {
+            return _cachedWindows.ContainsKey(typeof(TWindow));
         }
 
         private void CachePanel<TPanel>(ObjectPanel panel)

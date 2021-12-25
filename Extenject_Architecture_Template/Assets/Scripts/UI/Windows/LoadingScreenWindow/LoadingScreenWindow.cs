@@ -53,6 +53,7 @@ namespace UI.Windows.LoadingScreenWindow
 
         public override void Close()
         {
+            base.Close();
         }
 
         private void ResetProgressbar()

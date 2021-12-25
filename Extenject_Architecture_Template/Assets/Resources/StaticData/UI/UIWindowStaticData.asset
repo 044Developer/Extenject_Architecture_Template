@@ -20,9 +20,9 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
   - _windowType: 2
-    _resourcePath: LoadingWindow
+    _resourcePath: Prefabs/UI/Windows/LoadingWindow
     _assetReferenceGameObject:
-      m_AssetGUID: a09011ddd096a3b4ab1e19b4986410bb
+      m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   - _windowType: 3

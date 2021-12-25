@@ -16,7 +16,13 @@ namespace Infrastructure.Services.AssetProvider
             Addressables.InitializeAsync();
         }
 
-        public async Task<T> Load<T>(AssetReferenceGameObject assetReference) where T : class
+        public T Load<T>(string assetReference) where T : UnityEngine.Object
+        {
+            var resource = UnityEngine.Resources.Load(assetReference);
+            return (T)resource;
+        }
+
+        public async Task<T> LoadAsync<T>(AssetReferenceGameObject assetReference) where T : class
         {
             if (_completedHandles.TryGetValue(assetReference.AssetGUID, out AsyncOperationHandle completedHandle))
                 return completedHandle.Result as T;
@@ -28,7 +34,7 @@ namespace Infrastructure.Services.AssetProvider
             return await LoadHandleWithCompletedCache(handle, completedKey);
         }
         
-        public async Task<T> Load<T>(string assetReference) where T : class
+        public async Task<T> LoadAsync<T>(string assetReference) where T : class
         {
             if (_completedHandles.TryGetValue(assetReference, out AsyncOperationHandle completedHandle))
                 return completedHandle.Result as T;
